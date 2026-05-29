@@ -12,7 +12,7 @@ The frontend, bot, and operational tooling are not part of this repository.
 | Upgrade authority | Squads V4 multisig `Gvqpq2sECBKdJbzVMD994d6Jcz5UnK2jXEN6PK4UFUgd` (2-of-3) |
 | On-chain `security.txt` contact | `security@inctrl.fun` |
 
-Tagged commits in this repo correspond to deployed mainnet program slots. The current deployment matches the tag at `mainnet-869aecd`.
+Tagged commits in this repo correspond to deployed mainnet program slots. The current deployment matches the tag at `mainnet-3858ad4` (`solana-verify get-program-hash` returns `746c6f111ab4dce92ac88e808d0e2916e20b7939bc3bc081072d48b46f5636d2`).
 
 ## Build
 
