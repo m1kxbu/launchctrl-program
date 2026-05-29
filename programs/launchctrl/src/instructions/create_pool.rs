@@ -355,25 +355,21 @@ pub fn create_meteora_pool(
         &[migration_auth_seeds],
     )?;
 
-    // ── 9. Reimburse cranker for the SOL loaned into the pool ────────────
-    // All CPIs complete — raw lamport mutation on program-owned
-    // migration_sol_vault is safe here. Drain everything above its
-    // rent-exempt minimum back to cranker (covers sol_amount).
-    let sol_vault_balance = ctx.accounts.migration_sol_vault.to_account_info().lamports();
-    let reimburse = sol_vault_balance.saturating_sub(sol_vault_rent);
-    if reimburse > 0 {
-        **ctx.accounts.migration_sol_vault.to_account_info().try_borrow_mut_lamports()? -= reimburse;
-        **ctx.accounts.cranker.to_account_info().try_borrow_mut_lamports()? += reimburse;
-    }
-
-    // ── 10. Sweep migration_authority residual back to cranker ───────────
+    // ── 9. Sweep migration_authority residual back to cranker ───────────
     // migration_authority is system-owned (UncheckedAccount PDA), so we
-    // can't raw-debit its lamports — but we CAN call system_program::transfer
+    // can't raw-debit its lamports, but we CAN call system_program::transfer
     // with PDA-signing, which IS authorized. Reclaim the unused portion of
     // METEORA_CREATION_RESERVE + the WSOL rent recovered during step 8's
     // close_account, leaving just enough to stay rent-exempt so reinject's
     // future Meteora CPIs (which need migration_authority to PDA-sign)
     // don't break.
+    //
+    // Ordering: this CPI runs BEFORE step 10's raw lamport mutation so all
+    // CPIs in the instruction complete before any account's lamports are
+    // mutated raw. Lamport conservation is tracked per-CPI by the runtime;
+    // doing the raw mutation last is the canonical safe pattern (matches
+    // reinject.rs). Reversing the order trips Mollusk's conservation check
+    // under unit test, even though both orders produce identical end state.
     let mig_auth_balance = ctx.accounts.migration_authority.to_account_info().lamports();
     let mig_auth_min_rent = Rent::get()?.minimum_balance(0);
     let mig_auth_sweep = mig_auth_balance.saturating_sub(mig_auth_min_rent);
@@ -391,6 +387,17 @@ pub fn create_meteora_pool(
             ],
             &[migration_auth_seeds],
         )?;
+    }
+
+    // ── 10. Reimburse cranker for the SOL loaned into the pool ───────────
+    // All CPIs complete. Raw lamport mutation on program-owned
+    // migration_sol_vault is safe here. Drain everything above its
+    // rent-exempt minimum back to cranker (covers sol_amount).
+    let sol_vault_balance = ctx.accounts.migration_sol_vault.to_account_info().lamports();
+    let reimburse = sol_vault_balance.saturating_sub(sol_vault_rent);
+    if reimburse > 0 {
+        **ctx.accounts.migration_sol_vault.to_account_info().try_borrow_mut_lamports()? -= reimburse;
+        **ctx.accounts.cranker.to_account_info().try_borrow_mut_lamports()? += reimburse;
     }
 
     // ── 11. Record pool in launch_state ──────────────────────────────────
