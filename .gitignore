@@ -6,3 +6,9 @@ target
 # Sec3 X-ray intermediate scan artifacts
 .xray/
 *.ll
+
+# Internal tooling that should never land in the public mirror
+.vercel
+.superpowers
+.prettierignore
+.claude

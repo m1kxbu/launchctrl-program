@@ -1,7 +1,6 @@
 [workspace]
 members = [
     "programs/launchctrl",
-    "programs/meteora-stub",
 ]
 resolver = "2"
 

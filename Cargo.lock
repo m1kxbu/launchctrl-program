@@ -1695,17 +1695,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "meteora-stub"
-version = "0.0.1"
-dependencies = [
- "solana-account-info",
- "solana-msg",
- "solana-program-entrypoint",
- "solana-program-error",
- "solana-pubkey 3.0.0",
-]
-
-[[package]]
 name = "mollusk-svm"
 version = "0.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
