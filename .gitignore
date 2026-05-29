@@ -1,0 +1,8 @@
+target
+.anchor
+*.so
+.DS_Store
+
+# Sec3 X-ray intermediate scan artifacts
+.xray/
+*.ll

@@ -1,0 +1,26 @@
+[toolchain]
+anchor_version = "1.0.0"
+package_manager = "yarn"
+
+[features]
+resolution = true
+skip-lint = false
+
+[programs.localnet]
+launchctrl = "EJTstPiwyJ7a9wMUKrBDf19GLwqGwD7H2BXLFD1v1rAo"
+
+[programs.devnet]
+launchctrl = "EJTstPiwyJ7a9wMUKrBDf19GLwqGwD7H2BXLFD1v1rAo"
+
+[programs.mainnet]
+launchctrl = "CTRLY9aJ4eSnFU1W3S9QUVoHhMme7T5fR8gMCpkTFuWe"
+
+[registry]
+url = "https://api.apr.dev"
+
+[provider]
+cluster = "localnet"
+wallet = '~/.config/solana/id.json'
+
+[scripts]
+test = "yarn run mocha -t 1000000 tests/"
