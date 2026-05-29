@@ -1,0 +1,21 @@
+{
+  "name": "LaunchCTRL",
+  "logo": "https://raw.githubusercontent.com/m1kxbu/launchctrl-program/main/logo.png",
+  "description": "A Solana token launchpad built to defend creators and traders from bots, snipers, and copycat launches.",
+  "project_url": "https://inctrl.fun",
+  "source_code": "https://github.com/m1kxbu/launchctrl-program",
+  "source_release": "mainnet-869aecd",
+  "source_revision": "869aecd6db0b3fa1914ac50d3b25604557b43326",
+  "policy": "https://inctrl.fun/docs",
+  "contacts": [
+    "email:security@inctrl.fun",
+    "twitter:@shiftinctrl"
+  ],
+  "preferred_languages": ["en"],
+  "auditors": [
+    "Sec3 X-ray (2026-04-26)",
+    "Internal manual review",
+    "Pre-public-open sweep (2026-05-26)"
+  ],
+  "version": "0.1.0"
+}
